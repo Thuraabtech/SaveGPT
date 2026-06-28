@@ -14,7 +14,17 @@ fi
 # Zip the layer
 echo "Packaging layer..."
 rm -f layer/langchain.zip || true
-(cd layer && zip -r langchain.zip langchain)
+python - <<'PY'
+from pathlib import Path
+from zipfile import ZipFile, ZIP_DEFLATED
+
+base = Path("layer/langchain")
+archive = Path("layer/langchain.zip")
+with ZipFile(archive, "w", compression=ZIP_DEFLATED) as zip_file:
+    for path in base.rglob("*"):
+        if path.is_file():
+            zip_file.write(path, path.as_posix())
+PY
 
 # Ensure AWS CLI and SAM are available
 if ! command -v aws >/dev/null 2>&1; then
