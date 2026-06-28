@@ -1,0 +1,153 @@
+:root {
+  color-scheme: dark;
+  --bg: #08111f;
+  --bg-2: #101c33;
+  --panel: rgba(10, 18, 34, 0.88);
+  --text: #ecf2ff;
+  --muted: #a8b5d6;
+  --accent: #68d6ff;
+  --accent-2: #8b7dff;
+  --border: rgba(132, 156, 214, 0.22);
+  --shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(104, 214, 255, 0.18), transparent 36%),
+    radial-gradient(circle at top right, rgba(139, 125, 255, 0.18), transparent 32%),
+    linear-gradient(160deg, var(--bg), var(--bg-2));
+}
+
+.shell {
+  width: min(1080px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 48px 0 64px;
+  display: grid;
+  gap: 24px;
+}
+
+.hero {
+  max-width: 720px;
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--accent);
+  font-size: 0.78rem;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(2.6rem, 6vw, 4.8rem);
+  line-height: 0.95;
+}
+
+.lede {
+  max-width: 60ch;
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 24px;
+  backdrop-filter: blur(18px);
+  box-shadow: var(--shadow);
+}
+
+label,
+.label {
+  display: block;
+  margin-bottom: 12px;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+textarea {
+  width: 100%;
+  resize: vertical;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  background: rgba(4, 10, 22, 0.65);
+  color: var(--text);
+  padding: 16px;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+textarea:focus {
+  outline: 2px solid rgba(104, 214, 255, 0.55);
+  outline-offset: 2px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+button {
+  border: 0;
+  border-radius: 999px;
+  padding: 12px 18px;
+  font-weight: 700;
+  color: #05101e;
+  background: linear-gradient(135deg, var(--accent), #9df0ff);
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+#status {
+  color: var(--muted);
+}
+
+.result {
+  display: grid;
+  gap: 22px;
+}
+
+.value {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin: 0;
+  color: var(--accent);
+}
+
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--text);
+  line-height: 1.7;
+}
+
+@media (max-width: 640px) {
+  .shell {
+    width: min(100% - 20px, 1080px);
+    padding-top: 28px;
+  }
+
+  .panel {
+    padding: 18px;
+    border-radius: 20px;
+  }
+}

@@ -1,0 +1,73 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: AWS Prompt Routing Tool
+
+Globals:
+  Function:
+    Timeout: 60
+    MemorySize: 256
+    Runtime: python3.12
+    Architectures:
+      - x86_64
+    Environment:
+      Variables:
+        LOG_TABLE_NAME: !Ref PromptLogsTable
+        AWS_REGION_NAME: us-east-1
+
+Resources:
+  PromptLogsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: prompt_logs
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+
+  PromptRouterFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: app/lambda/
+      Handler: handler.handler
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - DynamoDBCrudPolicy:
+            TableName: !Ref PromptLogsTable
+        - Statement:
+            - Effect: Allow
+              Action:
+                - bedrock:InvokeModel
+              Resource: '*'
+      Events:
+        PromptApi:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref PromptApi
+            Path: /prompt
+            Method: POST
+      Metadata:
+        BuildMethod: python3.12
+
+  PromptApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      StageName: prod
+      CorsConfiguration:
+        AllowOrigins:
+          - '*'
+        AllowHeaders:
+          - Content-Type
+        AllowMethods:
+          - POST
+          - OPTIONS
+
+Outputs:
+  PromptApiUrl:
+    Description: HTTP API endpoint
+    Value: !Sub 'https://${PromptApi}.execute-api.${AWS::Region}.amazonaws.com/prod'
+  PromptLogsTableName:
+    Description: DynamoDB table name
+    Value: !Ref PromptLogsTable

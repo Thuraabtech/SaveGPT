@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AWS Prompt Routing Tool</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <p class="eyebrow">Serverless prompt router</p>
+        <h1>AWS Prompt Routing Tool</h1>
+        <p class="lede">
+          Submit a prompt, classify its complexity, and route it to the right Bedrock Claude model.
+        </p>
+      </section>
+
+      <section class="panel">
+        <label for="prompt">Prompt</label>
+        <textarea id="prompt" rows="8" placeholder="Describe what you want to build, analyze, or summarize..."></textarea>
+        <div class="actions">
+          <button id="submitBtn">Route prompt</button>
+          <span id="status"></span>
+        </div>
+      </section>
+
+      <section class="panel result">
+        <div>
+          <p class="label">Tier</p>
+          <p id="tier" class="value">-</p>
+        </div>
+        <div>
+          <p class="label">Response</p>
+          <pre id="response">No response yet.</pre>
+        </div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
