@@ -24,6 +24,21 @@ A serverless prompt router that classifies incoming prompts as `HIGH`, `MEDIUM`,
 - AWS SAM CLI installed
 - Python 3.12
 
+### LangChain & Lambda Layer
+
+This project uses LangChain in the Lambda. To keep Lambda deployment packages small, it's intended to package LangChain and its dependencies into a Lambda Layer located at `layer/langchain/` and referenced by the SAM template. If the layer would exceed Lambda's limits, you can switch to container image deployment.
+
+To build the layer locally (example):
+
+```bash
+# from the repo root
+mkdir -p layer/langchain/python
+pip install -r app/lambda/requirements.txt -t layer/langchain/python
+zip -r layer-langchain.zip layer/langchain
+```
+
+Then set `ContentUri` for the `LangchainLayer` in `template.yaml` to point to the packaged zip or the folder when using `sam build`.
+
 ## Deploy
 
 ```bash

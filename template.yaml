@@ -32,6 +32,8 @@ Resources:
     Properties:
       CodeUri: app/lambda/
       Handler: handler.handler
+      Layers:
+        - !Ref LangchainLayer
       Policies:
         - AWSLambdaBasicExecutionRole
         - DynamoDBCrudPolicy:
@@ -71,3 +73,12 @@ Outputs:
   PromptLogsTableName:
     Description: DynamoDB table name
     Value: !Ref PromptLogsTable
+
+  LangchainLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: langchain-layer
+      Description: Python packages for LangChain and dependencies (build and provide site-packages in layer/langchain/)
+      ContentUri: layer/langchain/
+      CompatibleRuntimes:
+        - python3.12
